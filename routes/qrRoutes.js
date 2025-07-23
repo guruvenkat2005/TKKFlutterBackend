@@ -12,11 +12,13 @@ router.get('/stats', async (req, res) => {
     const total = await QRCode.countDocuments();
     const scanned = await QRCode.countDocuments({ scanned: true });
     const redeemed = await QRCode.countDocuments({ redeemed: true });
+    const qrList = await QRCode.find({}, 'code scanned redeemed');
 
     res.json({
       total,
       scanned,
-      redeemed
+      redeemed,
+      qrList
     });
   } catch (error) {
     res.status(500).json({ msg: 'Error fetching stats', error });
